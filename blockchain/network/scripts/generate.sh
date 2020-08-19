@@ -21,13 +21,13 @@ echo "Generating channel artifacts and genesis block..."
  cd $CURRENT_DIR
  cd ./network/base
  sed $OPTS "s/CA1_PRIVATE_KEY/${PRIV_KEY}/g" docker-compose-base.yaml
- 
+
  cd $CURRENT_DIR
  cd ./network/crypto-config/peerOrganizations/police.example.com/ca/
  PRIV_KEY=$(ls *_sk)
  cd $CURRENT_DIR
  cd ./network/base
  sed $OPTS "s/CA2_PRIVATE_KEY/${PRIV_KEY}/g" docker-compose-base.yaml
- 
+
  cd $CURRENT_DIR
  ./network/scripts/ccp-generate.sh

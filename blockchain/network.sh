@@ -7,6 +7,7 @@ if [ "$1" == "start" ]; then
     echo "***********************************"
     echo "       Starting network            "
     echo "***********************************"
+    chmod +x ./network/scripts/start.sh
     ./network/scripts/start.sh
     echo "***********************************"
     echo "       Installing chaincodes       "

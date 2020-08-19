@@ -13,7 +13,7 @@ function json_ccp {
         -e "s/\${CAPORT}/$4/" \
         -e "s#\${PEERPEM}#$PP#" \
         -e "s#\${CAPEM}#$CP#" \
-        ./connections/ccp-template.json 
+        ./connections/ccp-template.json
 }
 
 

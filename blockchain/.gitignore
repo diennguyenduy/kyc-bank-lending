@@ -1,4 +1,4 @@
-node_modules
+*node_modules*
 
 network/crypto-config
 network/channel-artifacts

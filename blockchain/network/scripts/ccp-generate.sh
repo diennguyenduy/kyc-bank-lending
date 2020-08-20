@@ -29,7 +29,7 @@ echo "$(json_ccp $ORG $ORGMSP $P0PORT $CAPORT $PEERPEM $CAPEM)" > ./connections/
 ORG=police
 ORGMSP=Police
 P0PORT=9051
-CAPORT=8054
+CAPORT=9054
 PEERPEM=./network/crypto-config/peerOrganizations/police.example.com/tlsca/tlsca.police.example.com-cert.pem
 CAPEM=./network/crypto-config/peerOrganizations/police.example.com/ca/ca.police.example.com-cert.pem
 

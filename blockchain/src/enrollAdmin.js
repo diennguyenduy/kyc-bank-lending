@@ -70,10 +70,7 @@ async function main() {
         { trustedRoots: caTLSCACerts, verify: false },
         caInfo.caName
       );
-      // be sure to change the http to https when the CA is running TLS enabled
-      // fabric_ca_client = new Fabric_CA_Client('http://localhost:7054', tlsOptions , 'ca.example.com', crypto_suite);
 
-      // first check to see if the admin is already enrolled
       return fabric_client.getUserContext('admin', true);
     })
     .then((user_from_store) => {

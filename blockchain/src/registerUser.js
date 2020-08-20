@@ -24,7 +24,7 @@ require('dotenv').config();
 // );
 // mongoose.set("useCreateIndex", true);
 
-async function registerUser(username, org, role, admin) {
+async function registerUser(username, org, admin) {
   try {
     const ccpPath = path.resolve(
       __dirname,
@@ -57,13 +57,13 @@ async function registerUser(username, org, role, admin) {
     }
 
     // register user account
-    let user = new User({
-      username: username,
-      password: process.env.USER_DEFAULT_PASSWORD,
-      role: role,
-    });
+    // let user = new User({
+    //   username: username,
+    //   password: process.env.USER_DEFAULT_PASSWORD,
+    //   role: role,
+    // });
 
-    let userSaved = await user.save();
+    // let userSaved = await user.save();
     // Create a new gateway for connecting to our peer node.
     const gateway = new Gateway();
     await gateway.connect(ccpPath, {
@@ -75,27 +75,27 @@ async function registerUser(username, org, role, admin) {
     // Get the CA client object from the gateway for interacting with the CA.
     const ca = gateway.getClient().getCertificateAuthority();
     const adminIdentity = gateway.getCurrentIdentity();
-    if (userSaved) {
-      const upper = org.replace(/^\w/, (c) => c.toUpperCase());
-      // Register the user, enroll the user, and import the new identity into the wallet.
-      const secret = await ca.register(
-        { enrollmentID: username, role: 'client' },
-        adminIdentity
-      );
-      const enrollment = await ca.enroll({
-        enrollmentID: username,
-        enrollmentSecret: secret,
-      });
-      const userIdentity = X509WalletMixin.createIdentity(
-        `${upper}MSP`,
-        enrollment.certificate,
-        enrollment.key.toBytes()
-      );
-      await wallet.import(username, userIdentity);
-      console.log(
-        `Successfully registered and enrolled admin user ${username} and imported it into the wallet`
-      );
-    }
+    // if (userSaved) {
+    const upper = org.replace(/^\w/, (c) => c.toUpperCase());
+    // Register the user, enroll the user, and import the new identity into the wallet.
+    const secret = await ca.register(
+      { enrollmentID: username, role: 'client' },
+      adminIdentity
+    );
+    const enrollment = await ca.enroll({
+      enrollmentID: username,
+      enrollmentSecret: secret,
+    });
+    const userIdentity = X509WalletMixin.createIdentity(
+      `${upper}MSP`,
+      enrollment.certificate,
+      enrollment.key.toBytes()
+    );
+    await wallet.import(username, userIdentity);
+    console.log(
+      `Successfully registered and enrolled admin user ${username} and imported it into the wallet`
+    );
+    // }
   } catch (error) {
     console.error(`Failed to register user ${username}: ${error}`);
   }

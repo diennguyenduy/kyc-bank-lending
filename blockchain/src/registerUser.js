@@ -10,7 +10,7 @@ const {
   X509WalletMixin,
 } = require('fabric-network');
 const path = require('path');
-const User = require('./server/model/User');
+// const User = require('./server/model/User');
 // const mongoose = require('mongoose');
 require('dotenv').config();
 
@@ -100,4 +100,8 @@ async function registerUser(username, org, admin) {
     console.error(`Failed to register user ${username}: ${error}`);
   }
 }
+
+registerUser('bank-client', 'bank', 'bank');
+registerUser('police-client', 'police', 'police');
+
 module.exports = registerUser;

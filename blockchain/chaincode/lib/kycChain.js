@@ -4,13 +4,13 @@ Function list:
   + Submit form
   + Destroy form -> set status & delete
 - Bank:
-  + Get all waiting form -> query all form by attribute
+  + Get all waiting form -> query all form by attribute (eg. 'waiting')
   + Submit form to Police -> query by id and send that form
-  + Get all responsed form -> query all form by attribute
+  + Get all responsed form -> query all form by attribute (eg. 'responsed')
   + Aprove form & send money -> putState
   + Reject form -> putState & deleteState
 - Police
-  + Get all form -> query all
+  + Get all form -> query all by status (eg. waiting for response')
   + Send infomation to Bank -> editState
 */
 
@@ -90,45 +90,9 @@ class KycChain extends Contract {
     return assetAsBytes.toString();
   }
 
-  // Get all form from ledger
-  async queryAllForm(ctx, entity) {
-    const startKey = '';
-    const endKey = 'zzzzzzzz';
-
-    const iterator = await ctx.stub.getStateByRange(
-      entity + startKey,
-      entity + endKey
-    );
-
-    const allResults = [];
-    while (true) {
-      const res = await iterator.next();
-
-      if (res.value && res.value.value.toString()) {
-        console.log(res.value.value.toString('utf8'));
-        let Record;
-        try {
-          Record = JSON.parse(res.value.value.toString('utf8'));
-        } catch (err) {
-          console.log(err);
-          Record = res.value.value.toString('utf8');
-        }
-        allResults.push(Record);
-      }
-      if (res.done) {
-        console.log('end of data');
-        await iterator.close();
-        console.info(allResults);
-        return allResults;
-      }
-    }
-  }
-
   // lấy danh sách đối tượng có thuộc tính = input
-  async queryAllAssetByAttribute(ctx, entity, attribute, attributeId) {
-    console.info('============= START : Query asset by attribute===========');
-    console.log('attribute' + attribute);
-    console.log('attributeId' + attributeId);
+  async queryAllFormByStatus(ctx, entity, status, statusId) {
+    console.info('============= START : Query form by status===========');
 
     const startKey = '';
     const endKey = 'zzzzzzzz';
@@ -156,7 +120,7 @@ class KycChain extends Contract {
 
         console.log(Record[attribute]);
 
-        if (Record[attribute] == attributeId) allResults.push(Record);
+        if (Record[status] == statusId) allResults.push(Record);
       }
       if (res.done) {
         console.log('end of data');

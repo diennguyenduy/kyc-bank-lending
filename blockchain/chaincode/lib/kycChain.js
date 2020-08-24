@@ -1,33 +1,97 @@
+/*
+Function list:
+- Customer:
+  + Submit form
+  + Destroy form -> set status & delete
+- Bank:
+  + Get all waiting form -> query all form by attribute
+  + Submit form to Police -> query by id and send that form
+  + Get all responsed form -> query all form by attribute
+  + Aprove form & send money -> putState
+  + Reject form -> putState & deleteState
+- Police
+  + Get all form -> query all
+  + Send infomation to Bank -> editState
+*/
+
 'use strict';
 
 const { Contract } = require('fabric-contract-api');
 
 class KycChain extends Contract {
-  // thêm mới 1 đối tượng vào chaincode
-  async addAsset(ctx, asset) {
-    console.info('============= START : Add asset ===========');
-    await ctx.stub.putState(
-      JSON.parse(asset).id.toString(),
-      Buffer.from(asset)
-    );
-    console.info('============= END : Add asset ===========');
+  // Customer create new form and add into ledger
+  async addForm(ctx, form) {
+    console.info('============= START : Add form ===========');
+    await ctx.stub.putState(JSON.parse(form).id.toString(), Buffer.from(form));
+    console.info('============= END : Add form ===========');
     return ctx.stub.getTxID();
   }
 
-  // lấy 1 đối tượng từ chaincode
-  async queryAsset(ctx, assetId) {
-    console.info('============= START : Query asset ===========');
-    const assetAsBytes = await ctx.stub.getState(assetId);
+  async deleteAsset(ctx, assetId) {
+    // Delete the key from the state in ledger
+    console.info('============= START : deleteAsset ===========');
+
+    const assetAsBytes = await ctx.stub.getState(assetId); // get the asset from chaincode state
     if (!assetAsBytes || assetAsBytes.length === 0) {
       throw new Error(`${assetId} does not exist`);
+    }
+    try {
+      await ctx.stub.deleteState(assetId);
+      console.log(`Delete asset ${assetId} successful`);
+    } catch (e) {
+      console.log(e);
+
+      throw new Error(`delete error`, e);
+    }
+    console.info('============= END : deleteAsset ===========');
+  }
+
+  async setStatus(ctx, id, status) {
+    console.info('============= START : Set status ===========');
+    const keyAsBytes = await ctx.stub.getState(id);
+    if (!keyAsBytes || keyAsBytes.length === 0) {
+      throw new Error(`${id} does not exist`);
+    }
+    let key = JSON.parse(keyAsBytes.toString());
+    key.status = status;
+    await ctx.stub.putState(id, Buffer.from(JSON.stringify(key)));
+    console.info('============= END : Set status ===========');
+    return ctx.stub.getTxID();
+  }
+
+  async deleteForm(ctx, assetId) {
+    // Delete the key from the state in ledger
+    console.info('============= START : deleteAsset ===========');
+
+    const assetAsBytes = await ctx.stub.getState(assetId); // get the asset from chaincode state
+    if (!assetAsBytes || assetAsBytes.length === 0) {
+      throw new Error(`${assetId} does not exist`);
+    }
+    try {
+      await ctx.stub.deleteState(assetId);
+      console.log(`Delete asset ${assetId} successful`);
+    } catch (e) {
+      console.log(e);
+
+      throw new Error(`delete error`, e);
+    }
+    console.info('============= END : deleteAsset ===========');
+  }
+
+  // Get form from ledger by id
+  async queryForm(ctx, formId) {
+    console.info('============= START : Query form ===========');
+    const assetAsBytes = await ctx.stub.getState(formId);
+    if (!assetAsBytes || assetAsBytes.length === 0) {
+      throw new Error(`${formId} does not exist`);
     }
     console.log(assetAsBytes.toString());
     console.info('============= END : Query asset ===========');
     return assetAsBytes.toString();
   }
 
-  //lấy 1 list các đối tượng từ chaincode
-  async queryAllAsset(ctx, entity) {
+  // Get all form from ledger
+  async queryAllForm(ctx, entity) {
     const startKey = '';
     const endKey = 'zzzzzzzz';
 
@@ -101,50 +165,6 @@ class KycChain extends Contract {
         return allResults;
       }
     }
-  }
-
-  async editAsset(ctx, assetId, newAsset) {
-    console.info('============= START : editAsset ===========');
-
-    const assetAsBytes = await ctx.stub.getState(assetId); // get the asset from chaincode state
-    if (!assetAsBytes || assetAsBytes.length === 0) {
-      throw new Error(`${assetId} does not exist`);
-    }
-
-    await ctx.stub.putState(assetId, Buffer.from(newAsset));
-    console.info('============= END : editAsset ===========');
-    return ctx.stub.getTxID();
-  }
-  async deleteAsset(ctx, assetId) {
-    // Delete the key from the state in ledger
-    console.info('============= START : deleteAsset ===========');
-
-    const assetAsBytes = await ctx.stub.getState(assetId); // get the asset from chaincode state
-    if (!assetAsBytes || assetAsBytes.length === 0) {
-      throw new Error(`${assetId} does not exist`);
-    }
-    try {
-      await ctx.stub.deleteState(assetId);
-      console.log(`Delete asset ${assetId} successful`);
-    } catch (e) {
-      console.log(e);
-
-      throw new Error(`delete error`, e);
-    }
-    console.info('============= END : deleteAsset ===========');
-  }
-  async setPosition(ctx, id, latitude, longitude) {
-    console.info('============= START : Set position ===========');
-    const keyAsBytes = await ctx.stub.getState(id);
-    if (!keyAsBytes || keyAsBytes.length === 0) {
-      throw new Error(`${id} does not exist`);
-    }
-    let key = JSON.parse(keyAsBytes.toString());
-    key.latitude = latitude;
-    key.longitude = longitude;
-    await ctx.stub.putState(id, Buffer.from(JSON.stringify(key)));
-    console.info('============= END : Set position ===========');
-    return ctx.stub.getTxID();
   }
 
   async getHistory(ctx, id) {

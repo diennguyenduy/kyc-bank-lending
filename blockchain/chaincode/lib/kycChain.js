@@ -27,55 +27,36 @@ class KycChain extends Contract {
     return ctx.stub.getTxID();
   }
 
-  async deleteAsset(ctx, assetId) {
+  async deleteForm(ctx, formId) {
     // Delete the key from the state in ledger
-    console.info('============= START : deleteAsset ===========');
+    console.info('============= START : deleteForm ===========');
 
-    const assetAsBytes = await ctx.stub.getState(assetId); // get the asset from chaincode state
-    if (!assetAsBytes || assetAsBytes.length === 0) {
-      throw new Error(`${assetId} does not exist`);
+    const formAsBytes = await ctx.stub.getState(formId); // get the form from chaincode state
+    if (!formAsBytes || formAsBytes.length === 0) {
+      throw new Error(`${formId} does not exist`);
     }
     try {
-      await ctx.stub.deleteState(assetId);
-      console.log(`Delete asset ${assetId} successful`);
+      await ctx.stub.deleteState(formId);
+      console.log(`Delete form ${formId} successful`);
     } catch (e) {
       console.log(e);
 
       throw new Error(`delete error`, e);
     }
-    console.info('============= END : deleteAsset ===========');
+    console.info('============= END : deleteForm ===========');
   }
 
-  async setStatus(ctx, id, status) {
+  async setStatus(ctx, formId, status) {
     console.info('============= START : Set status ===========');
-    const keyAsBytes = await ctx.stub.getState(id);
+    const keyAsBytes = await ctx.stub.getState(formId);
     if (!keyAsBytes || keyAsBytes.length === 0) {
-      throw new Error(`${id} does not exist`);
+      throw new Error(`Form ${formId} does not exist`);
     }
     let key = JSON.parse(keyAsBytes.toString());
     key.status = status;
     await ctx.stub.putState(id, Buffer.from(JSON.stringify(key)));
     console.info('============= END : Set status ===========');
     return ctx.stub.getTxID();
-  }
-
-  async deleteForm(ctx, assetId) {
-    // Delete the key from the state in ledger
-    console.info('============= START : deleteAsset ===========');
-
-    const assetAsBytes = await ctx.stub.getState(assetId); // get the asset from chaincode state
-    if (!assetAsBytes || assetAsBytes.length === 0) {
-      throw new Error(`${assetId} does not exist`);
-    }
-    try {
-      await ctx.stub.deleteState(assetId);
-      console.log(`Delete asset ${assetId} successful`);
-    } catch (e) {
-      console.log(e);
-
-      throw new Error(`delete error`, e);
-    }
-    console.info('============= END : deleteAsset ===========');
   }
 
   // Get form from ledger by id
@@ -117,8 +98,6 @@ class KycChain extends Contract {
           Record = res.value.value.toString('utf8');
         }
         console.log('Record' + Record);
-
-        console.log(Record[attribute]);
 
         if (Record[status] == statusId) allResults.push(Record);
       }

@@ -1,8 +1,8 @@
 const router = require('express').Router();
+var uuidv4 = require('uuid/v4');
 const fabricNetwork = require('../fabricNetwork');
 const USER_ROLES = require('../configs/constant').USER_ROLES;
 const { body, validationResult, check } = require('express-validator');
-var uuidv4 = require('uuid/v4');
 
 require('dotenv').config();
 router.post('/', async function (req, res) {
@@ -24,46 +24,22 @@ router.post('/', async function (req, res) {
       req.decoded.user.username
     );
 
-    let action = {
-      id: 'Action' + uuidv4(),
-      imgUrl: req.body.imgUrl,
-      action: req.body.action,
-      time: req.body.time,
-      description: req.body.description,
-      formId: req.body.formId,
+    // Edit by form type
+    let form = {
+      id: 'Form' + uuidv4(),
+      name: req.body.name,
+      sowingDate: req.body.sowingDate,
+      harvestDate: req.body.harvestDate,
+      productId: req.body.productId,
+      customer: req.decoded.user.username,
     };
-    let tx = await contract.submitTransaction(
-      'addAsset',
-      JSON.stringify(action)
-    );
+
+    let tx = await contract.submitTransaction('addAsset', JSON.stringify(form));
 
     res.json({
-      status: 'Create Action successful!',
+      status: 'Create form successful!',
       txid: tx.toString(),
     });
-  } catch (error) {
-    console.error(`Failed to evaluate transaction: ${error}`);
-    res.status(500).json({
-      error: error,
-    });
-  }
-});
-
-router.get('/:id', async function (req, res) {
-  try {
-    console.log(req);
-
-    const contract = await fabricNetwork.connectNetwork(
-      'connection-bank.json',
-      'wallet/wallet-bank',
-      process.env.ADMIN_BANK_USERNAME
-    );
-    const result = await contract.evaluateTransaction(
-      'queryAsset',
-      req.params.id.toString()
-    );
-    let response = JSON.parse(result.toString());
-    res.json({ result: response });
   } catch (error) {
     console.error(`Failed to evaluate transaction: ${error}`);
     res.status(500).json({
@@ -82,7 +58,7 @@ router.put('/:id', async function (req, res) {
     const contract = await fabricNetwork.connectNetwork(
       'connection-bank.json',
       'wallet/wallet-bank',
-      process.env.ADMIN_BANK_USERNAME
+      req.decoded.user.username
     );
     let form = {
       id: req.params.id.toString(),
@@ -90,8 +66,9 @@ router.put('/:id', async function (req, res) {
       sowingDate: req.body.sowingDate,
       harvestDate: req.body.harvestDate,
       productId: req.body.productId,
-      formUsername: req.decoded.user.username,
+      customer: req.decoded.user.username,
     };
+
     const result = await contract.submitTransaction(
       'editAsset',
       form.id.toString(),
@@ -99,7 +76,7 @@ router.put('/:id', async function (req, res) {
     );
 
     res.json({
-      status: 'Edit Customer successful!',
+      status: 'Edit form successful!',
       txid: result.toString(),
     });
   } catch (error) {
@@ -120,7 +97,7 @@ router.delete('/:id', check('id').trim().escape(), async function (req, res) {
     const contract = await fabricNetwork.connectNetwork(
       'connection-bank.json',
       'wallet/wallet-bank',
-      process.env.ADMIN_BANK_USERNAME
+      req.decoded.user.username
     );
     const result = await contract.submitTransaction(
       'deleteAsset',
@@ -131,6 +108,29 @@ router.delete('/:id', check('id').trim().escape(), async function (req, res) {
       result: result,
       msg: 'Delete successful!',
     });
+  } catch (error) {
+    console.error(`Failed to evaluate transaction: ${error}`);
+    res.status(500).json({
+      error: error,
+    });
+  }
+});
+
+router.get('/', async function (req, res) {
+  try {
+    const contract = await fabricNetwork.connectNetwork(
+      'connection-bank.json',
+      'wallet/wallet-bank',
+      process.env.ADMIN_BANK_USERNAME
+    );
+    const result = await contract.evaluateTransaction(
+      'queryAllAssetByAttribute',
+      'Form',
+      'customer',
+      req.decoded.user.username
+    );
+    let response = JSON.parse(result.toString());
+    res.json({ forms: response });
   } catch (error) {
     console.error(`Failed to evaluate transaction: ${error}`);
     res.status(500).json({

@@ -12,7 +12,7 @@ echo "***********************************"
 
 node src/registerUser.js
 
-# echo "***********************************"
-# echo "       Starting API server         "
-# echo "***********************************"
-# npm start
+echo "***********************************"
+echo "       Starting API server         "
+echo "***********************************"
+npm start

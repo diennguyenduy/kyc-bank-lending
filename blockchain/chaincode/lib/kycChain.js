@@ -1,49 +1,49 @@
-/*
-Function list:
-- Customer:
-  + Submit form
-  + Destroy form -> set status & delete
-- Bank:
-  + Get all waiting form -> query all form by attribute (eg. 'waiting')
-  + Submit form to Police -> query by id and send that form
-  + Get all responsed form -> query all form by attribute (eg. 'responsed')
-  + Aprove form & send money -> putState
-  + Reject form -> putState & deleteState
-- Police
-  + Get all form -> query all by status (eg. waiting for response')
-  + Send infomation to Bank -> editState
-*/
-
 'use strict';
 
 const { Contract } = require('fabric-contract-api');
 
 class KycChain extends Contract {
-  // Customer create new form and add into ledger
-  async addForm(ctx, form) {
-    console.info('============= START : Add form ===========');
-    await ctx.stub.putState(JSON.parse(form).id.toString(), Buffer.from(form));
-    console.info('============= END : Add form ===========');
+  // Customer create new asset and add into ledger
+  async addAsset(ctx, asset) {
+    console.info('============= START : Add asset ===========');
+    await ctx.stub.putState(
+      JSON.parse(asset).id.toString(),
+      Buffer.from(asset)
+    );
+    console.info('============= END : Add asset ===========');
     return ctx.stub.getTxID();
   }
 
-  async deleteForm(ctx, formId) {
-    // Delete the key from the state in ledger
-    console.info('============= START : deleteForm ===========');
+  async editAsset(ctx, assetId, newAsset) {
+    console.info('============= START : editAsset ===========');
 
-    const formAsBytes = await ctx.stub.getState(formId); // get the form from chaincode state
-    if (!formAsBytes || formAsBytes.length === 0) {
-      throw new Error(`${formId} does not exist`);
+    const assetAsBytes = await ctx.stub.getState(assetId); // get the asset from chaincode state
+    if (!assetAsBytes || assetAsBytes.length === 0) {
+      throw new Error(`${assetId} does not exist`);
+    }
+
+    await ctx.stub.putState(assetId, Buffer.from(newAsset));
+    console.info('============= END : editAsset ===========');
+    return ctx.stub.getTxID();
+  }
+
+  async deleteAsset(ctx, assetId) {
+    // Delete the key from the state in ledger
+    console.info('============= START : deleteAsset ===========');
+
+    const assetAsBytes = await ctx.stub.getState(assetId); // get the asset from chaincode state
+    if (!assetAsBytes || assetAsBytes.length === 0) {
+      throw new Error(`${assetId} does not exist`);
     }
     try {
-      await ctx.stub.deleteState(formId);
-      console.log(`Delete form ${formId} successful`);
+      await ctx.stub.deleteState(assetId);
+      console.log(`Delete asset ${assetId} successful`);
     } catch (e) {
       console.log(e);
 
       throw new Error(`delete error`, e);
     }
-    console.info('============= END : deleteForm ===========');
+    console.info('============= END : deleteAsset ===========');
   }
 
   async setStatus(ctx, formId, status) {
@@ -59,12 +59,12 @@ class KycChain extends Contract {
     return ctx.stub.getTxID();
   }
 
-  // Get form from ledger by id
-  async queryForm(ctx, formId) {
-    console.info('============= START : Query form ===========');
-    const assetAsBytes = await ctx.stub.getState(formId);
+  // Get asset from ledger by id
+  async queryAsset(ctx, assetId) {
+    console.info('============= START : Query asset ===========');
+    const assetAsBytes = await ctx.stub.getState(assetId);
     if (!assetAsBytes || assetAsBytes.length === 0) {
-      throw new Error(`${formId} does not exist`);
+      throw new Error(`${assetId} does not exist`);
     }
     console.log(assetAsBytes.toString());
     console.info('============= END : Query asset ===========');
@@ -72,8 +72,8 @@ class KycChain extends Contract {
   }
 
   // lấy danh sách đối tượng có thuộc tính = input
-  async queryAllFormByStatus(ctx, entity, status, statusId) {
-    console.info('============= START : Query form by status===========');
+  async queryAllAssetByStatus(ctx, entity, status, statusId) {
+    console.info('============= START : Query asset by status===========');
 
     const startKey = '';
     const endKey = 'zzzzzzzz';

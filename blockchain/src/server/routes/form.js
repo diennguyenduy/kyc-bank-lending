@@ -27,11 +27,9 @@ router.post('/', async function (req, res) {
     // Edit by form type
     let form = {
       id: 'Form' + uuidv4(),
-      name: req.body.name,
-      sowingDate: req.body.sowingDate,
-      harvestDate: req.body.harvestDate,
-      productId: req.body.productId,
       customer: req.decoded.user.username,
+      customerId: req.body.customerId,
+      amount: req.body.amount,
     };
 
     let tx = await contract.submitTransaction('addAsset', JSON.stringify(form));
@@ -50,33 +48,25 @@ router.post('/', async function (req, res) {
 
 router.put('/:id', async function (req, res) {
   try {
-    if (req.decoded.user.role !== USER_ROLES.CUSTOMER) {
+    if (req.decoded.user.role === USER_ROLES.CUSTOMER) {
       return res.status(403).json({
         msg: 'Permission Denied',
       });
     }
+
     const contract = await fabricNetwork.connectNetwork(
       'connection-bank.json',
       'wallet/wallet-bank',
       req.decoded.user.username
     );
-    let form = {
-      id: req.params.id.toString(),
-      name: req.body.name,
-      sowingDate: req.body.sowingDate,
-      harvestDate: req.body.harvestDate,
-      productId: req.body.productId,
-      customer: req.decoded.user.username,
-    };
 
     const result = await contract.submitTransaction(
-      'editAsset',
-      form.id.toString(),
-      JSON.stringify(form)
+      'setStatus',
+      req.params.id.toString(),
+      req.body.status
     );
-
     res.json({
-      status: 'Edit form successful!',
+      status: 'Set status successful!',
       txid: result.toString(),
     });
   } catch (error) {
@@ -86,6 +76,43 @@ router.put('/:id', async function (req, res) {
     });
   }
 });
+
+// router.put('/:id', async function (req, res) {
+//   try {
+//     if (req.decoded.user.role !== USER_ROLES.CUSTOMER) {
+//       return res.status(403).json({
+//         msg: 'Permission Denied',
+//       });
+//     }
+//     const contract = await fabricNetwork.connectNetwork(
+//       'connection-bank.json',
+//       'wallet/wallet-bank',
+//       req.decoded.user.username
+//     );
+//     let form = {
+//       id: 'Form' + uuidv4(),
+//       customer: req.decoded.user.username,
+//       customerId: req.body.customerId,
+//       amount: req.body.amount,
+//     };
+
+//     const result = await contract.submitTransaction(
+//       'editAsset',
+//       form.id.toString(),
+//       JSON.stringify(form)
+//     );
+
+//     res.json({
+//       status: 'Edit form successful!',
+//       txid: result.toString(),
+//     });
+//   } catch (error) {
+//     console.error(`Failed to evaluate transaction: ${error}`);
+//     res.status(500).json({
+//       error: error,
+//     });
+//   }
+// });
 
 router.delete('/:id', check('id').trim().escape(), async function (req, res) {
   try {

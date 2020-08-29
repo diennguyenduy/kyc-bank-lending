@@ -7,11 +7,11 @@ const { body, validationResult, check } = require('express-validator');
 require('dotenv').config();
 router.post('/', async function (req, res) {
   try {
-    if (req.decoded.user.role !== USER_ROLES.CUSTOMER) {
-      return res.status(403).json({
-        msg: 'Permission Denied',
-      });
-    }
+    // if (req.decoded.user.role !== USER_ROLES.CUSTOMER) {
+    //   return res.status(403).json({
+    //     msg: 'Permission Denied',
+    //   });
+    // }
 
     const errors = validationResult(req);
 

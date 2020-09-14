@@ -49,6 +49,24 @@ router.post('/', async function (req, res) {
   }
 });
 
+// router.get('/', async function (req, res) {
+//   try {
+//     const contract = await fabricNetwork.connectNetwork(
+//       'connection-bank.json',
+//       'wallet/wallet-bank',
+//       process.env.ADMIN_BANK_USERNAME
+//     );
+//     const result = await contract.evaluateTransaction('queryAllAsset', 'Form');
+//     let response = JSON.parse(result.toString());
+//     res.json({ forms: response });
+//   } catch (error) {
+//     console.error(`Failed to evaluate transaction: ${error}`);
+//     res.status(500).json({
+//       error: error,
+//     });
+//   }
+// });
+
 router.get('/', async function (req, res) {
   try {
     const contract = await fabricNetwork.connectNetwork(
@@ -56,7 +74,14 @@ router.get('/', async function (req, res) {
       'wallet/wallet-bank',
       process.env.ADMIN_BANK_USERNAME
     );
-    const result = await contract.evaluateTransaction('queryAllAsset', 'Form');
+
+    const result = await contract.evaluateTransaction(
+      'queryAllAssetByAttribute',
+      'Form',
+      'customer',
+      'dien1'
+    );
+
     let response = JSON.parse(result.toString());
     res.json({ forms: response });
   } catch (error) {
@@ -69,22 +94,31 @@ router.get('/', async function (req, res) {
 
 router.put('/:id', async function (req, res) {
   try {
-    if (req.decoded.user.role === USER_ROLES.CUSTOMER) {
-      return res.status(403).json({
-        msg: 'Permission Denied',
-      });
-    }
+    // if (req.decoded.user.role === USER_ROLES.CUSTOMER) {
+    //   return res.status(403).json({
+    //     msg: 'Permission Denied',
+    //   });
+    // }
 
     const contract = await fabricNetwork.connectNetwork(
       'connection-bank.json',
       'wallet/wallet-bank',
-      req.decoded.user.username
+      // req.decoded.user.username
+      'bank-client'
     );
 
+    let newForm = {
+      id: req.params.id.toString(),
+      // customer: req.decoded.user.username,
+      customer: req.body.username,
+      customerId: req.body.customerId,
+      amount: req.body.amount,
+    };
+
     const result = await contract.submitTransaction(
-      'setStatus',
-      req.params.id.toString(),
-      req.body.status
+      'editAsset',
+      newForm.id.toString(),
+      JSON.stringify(newForm)
     );
     res.json({
       status: 'Set status successful!',
@@ -98,50 +132,13 @@ router.put('/:id', async function (req, res) {
   }
 });
 
-// router.put('/:id', async function (req, res) {
-//   try {
-//     if (req.decoded.user.role !== USER_ROLES.CUSTOMER) {
-//       return res.status(403).json({
-//         msg: 'Permission Denied',
-//       });
-//     }
-//     const contract = await fabricNetwork.connectNetwork(
-//       'connection-bank.json',
-//       'wallet/wallet-bank',
-//       req.decoded.user.username
-//     );
-//     let form = {
-//       id: 'Form' + uuidv4(),
-//       customer: req.decoded.user.username,
-//       customerId: req.body.customerId,
-//       amount: req.body.amount,
-//     };
-
-//     const result = await contract.submitTransaction(
-//       'editAsset',
-//       form.id.toString(),
-//       JSON.stringify(form)
-//     );
-
-//     res.json({
-//       status: 'Edit form successful!',
-//       txid: result.toString(),
-//     });
-//   } catch (error) {
-//     console.error(`Failed to evaluate transaction: ${error}`);
-//     res.status(500).json({
-//       error: error,
-//     });
-//   }
-// });
-
 router.delete('/:id', check('id').trim().escape(), async function (req, res) {
   try {
-    if (req.decoded.user.role !== USER_ROLES.CUSTOMER) {
-      return res.status(403).json({
-        msg: 'Permission Denied',
-      });
-    }
+    // if (req.decoded.user.role !== USER_ROLES.CUSTOMER) {
+    //   return res.status(403).json({
+    //     msg: 'Permission Denied',
+    //   });
+    // }
     const contract = await fabricNetwork.connectNetwork(
       'connection-bank.json',
       'wallet/wallet-bank',

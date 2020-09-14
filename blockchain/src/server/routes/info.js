@@ -52,7 +52,7 @@ router.get('/actions/:formId', async function (req, res) {
       process.env.ADMIN_BANK_USERNAME
     );
     const result = await contract.evaluateTransaction(
-      'queryAllAssetByAttribute',
+      'queryAllAssetByStatus',
       'Action',
       'formId',
       req.params.formId
@@ -75,7 +75,7 @@ router.get('/customer-detail/:username', async function (req, res) {
       process.env.ADMIN_BANK_USERNAME
     );
     const result = await contract.evaluateTransaction(
-      'queryAllAssetByAttribute',
+      'queryAllAssetByStatus',
       'Customer',
       'username',
       req.params.username.toString()
@@ -99,7 +99,7 @@ router.get('/certificate/:username', async function (req, res) {
       process.env.ADMIN_BANK_USERNAME
     );
     const result = await contract.evaluateTransaction(
-      'queryAllAssetByAttribute',
+      'queryAllAssetByStatus',
       'Certificate',
       'customer',
       req.params.username.toString()

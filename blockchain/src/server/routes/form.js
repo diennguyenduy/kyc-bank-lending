@@ -21,13 +21,15 @@ router.post('/', async function (req, res) {
     const contract = await fabricNetwork.connectNetwork(
       'connection-bank.json',
       'wallet/wallet-bank',
-      req.decoded.user.username
+      // req.decoded.user.username
+      'bank-client'
     );
 
     // Edit by form type
     let form = {
       id: 'Form' + uuidv4(),
-      customer: req.decoded.user.username,
+      // customer: req.decoded.user.username,
+      customer: req.body.username,
       customerId: req.body.customerId,
       amount: req.body.amount,
     };
@@ -124,7 +126,8 @@ router.delete('/:id', check('id').trim().escape(), async function (req, res) {
     const contract = await fabricNetwork.connectNetwork(
       'connection-bank.json',
       'wallet/wallet-bank',
-      req.decoded.user.username
+      // req.decoded.user.username
+      'bank-client'
     );
     const result = await contract.submitTransaction(
       'deleteAsset',
@@ -150,12 +153,7 @@ router.get('/', async function (req, res) {
       'wallet/wallet-bank',
       process.env.ADMIN_BANK_USERNAME
     );
-    const result = await contract.evaluateTransaction(
-      'queryAllAssetByAttribute',
-      'Form',
-      'customer',
-      req.decoded.user.username
-    );
+    const result = await contract.evaluateTransaction('queryAllAsset', 'Form');
     let response = JSON.parse(result.toString());
     res.json({ forms: response });
   } catch (error) {

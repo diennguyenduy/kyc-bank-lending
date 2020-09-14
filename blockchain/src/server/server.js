@@ -38,12 +38,19 @@ const actionRoutes = require('./routes/action');
 const customerRoutes = require('./routes/customer');
 const certificateRoutes = require('./routes/certificate');
 
+// app.use('/auth', authRoutes);
+// app.use('/info', infoRoutes);
+// app.use('/form', checkJWT, formRoutes);
+// app.use('/action', checkJWT, actionRoutes);
+// app.use('/customer', checkJWT, customerRoutes);
+// app.use('/certificate', checkJWT, certificateRoutes);
+
 app.use('/auth', authRoutes);
 app.use('/info', infoRoutes);
-app.use('/form', checkJWT, formRoutes);
-app.use('/action', checkJWT, actionRoutes);
-app.use('/customer', checkJWT, customerRoutes);
-app.use('/certificate', checkJWT, certificateRoutes);
+app.use('/form', formRoutes);
+app.use('/action', actionRoutes);
+app.use('/customer', customerRoutes);
+app.use('/certificate', certificateRoutes);
 
 app.listen(8080, () => {
   console.log('***********************************');

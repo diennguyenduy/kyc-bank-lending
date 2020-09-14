@@ -6,7 +6,15 @@
     "cra-template": "1.0.3",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
-    "react-scripts": "3.4.3"
+    "react-scripts": "3.4.3",
+    "bootstrap": "3.3.5",
+    "classnames": "2.1.4",
+    "react-bootstrap": "0.25.2",
+    "react-currency-input-field": "^2.2.0",
+    "react-redux": "3.0.1",
+    "react-widgets": "2.8.1",
+    "redux": "3.0.2",
+    "redux-form": "2.0.0"
   },
   "scripts": {
     "start": "react-scripts start",

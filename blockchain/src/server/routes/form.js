@@ -39,7 +39,26 @@ router.post('/', async function (req, res) {
     res.json({
       status: 'Create form successful!',
       txid: tx.toString(),
+      Form: form,
     });
+  } catch (error) {
+    console.error(`Failed to evaluate transaction: ${error}`);
+    res.status(500).json({
+      error: error,
+    });
+  }
+});
+
+router.get('/', async function (req, res) {
+  try {
+    const contract = await fabricNetwork.connectNetwork(
+      'connection-bank.json',
+      'wallet/wallet-bank',
+      process.env.ADMIN_BANK_USERNAME
+    );
+    const result = await contract.evaluateTransaction('queryAllAsset', 'Form');
+    let response = JSON.parse(result.toString());
+    res.json({ forms: response });
   } catch (error) {
     console.error(`Failed to evaluate transaction: ${error}`);
     res.status(500).json({
@@ -138,24 +157,6 @@ router.delete('/:id', check('id').trim().escape(), async function (req, res) {
       result: result,
       msg: 'Delete successful!',
     });
-  } catch (error) {
-    console.error(`Failed to evaluate transaction: ${error}`);
-    res.status(500).json({
-      error: error,
-    });
-  }
-});
-
-router.get('/', async function (req, res) {
-  try {
-    const contract = await fabricNetwork.connectNetwork(
-      'connection-bank.json',
-      'wallet/wallet-bank',
-      process.env.ADMIN_BANK_USERNAME
-    );
-    const result = await contract.evaluateTransaction('queryAllAsset', 'Form');
-    let response = JSON.parse(result.toString());
-    res.json({ forms: response });
   } catch (error) {
     console.error(`Failed to evaluate transaction: ${error}`);
     res.status(500).json({

@@ -105,9 +105,15 @@ class KycChain extends Contract {
     }
   }
 
-  // lấy danh sách đối tượng có thuộc tính = input
-  async queryAllAssetByStatus(ctx, entity, status, statusId) {
-    console.info('============= START : Query asset by status===========');
+  /* Lấy danh sách đối tượng có thuộc tính = input
+    entity = Form
+    attribute = status
+    attributeId = 'waiting'
+  */
+  async queryAllAssetByAttribute(ctx, entity, attribute, attributeId) {
+    console.info('============= START : Query asset by attribute===========');
+    console.log('attribute' + attribute);
+    console.log('attributeId' + attributeId);
 
     const startKey = '';
     const endKey = 'zzzzzzzz';
@@ -133,7 +139,9 @@ class KycChain extends Contract {
         }
         console.log('Record' + Record);
 
-        if (Record[status] == statusId) allResults.push(Record);
+        console.log(Record[attribute]);
+
+        if (Record[attribute] == attributeId) allResults.push(Record);
       }
       if (res.done) {
         console.log('end of data');

@@ -78,8 +78,10 @@ router.get('/', async function (req, res) {
     const result = await contract.evaluateTransaction(
       'queryAllAssetByAttribute',
       'Form',
-      'customer',
-      'dien1'
+      // req.params.attribute.toString(),
+      // req.params.attributeId.toString(),
+      req.body.attribute,
+      req.body.attributeId
     );
 
     let response = JSON.parse(result.toString());

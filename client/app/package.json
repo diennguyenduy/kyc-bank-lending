@@ -20,17 +20,6 @@
     "react": "^16.13.1",
     "react-chartist": "^0.14.3",
     "react-dom": "^16.13.1",
-<<<<<<< HEAD
-    "react-scripts": "3.4.3",
-    "bootstrap": "3.3.5",
-    "classnames": "2.1.4",
-    "react-bootstrap": "0.25.2",
-    "react-currency-input-field": "^2.2.0",
-    "react-redux": "3.0.1",
-    "react-widgets": "2.8.1",
-    "redux": "3.0.2",
-    "redux-form": "2.0.0"
-=======
     "react-google-maps": "^9.4.5",
     "react-qrcode-logo": "^2.2.1",
     "react-redux": "^7.2.0",
@@ -40,7 +29,6 @@
     "react-vertical-timeline-component": "^2.6.2",
     "redux": "^4.0.5",
     "redux-thunk": "^2.3.0"
->>>>>>> 4bfb6650ff82b22e01a4cde7928a271c569bcc5d
   },
   "scripts": {
     "start": "NODE_PATH=./src react-scripts start",

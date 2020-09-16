@@ -4,10 +4,10 @@ import Person from '@material-ui/icons/Person';
 import Spa from '@material-ui/icons/Spa';
 import Book from '@material-ui/icons/Book';
 import DashboardPage from 'views/Dashboard/Dashboard.js';
-import Farmer from 'views/Farmer/Farmer';
+import Customer from 'views/Customer/Customer';
 import Product from 'views/Product/Product';
-import Season from 'views/Season/Season';
-import UserProfile from 'views/FarmerProfile/Profile';
+import Form from 'views/Form/Form';
+import UserProfile from 'views/CustomerProfile/Profile';
 import Certificate from './views/Certificate/Certificate';
 
 const dashboardRoutes = [
@@ -16,28 +16,28 @@ const dashboardRoutes = [
     name: 'Dashboard',
     icon: Dashboard,
     component: DashboardPage,
-    layout: ''
+    layout: '',
   },
   {
-    path: '/farmer',
-    name: 'Farmer',
+    path: '/customer',
+    name: 'Customer',
     icon: Person,
-    component: Farmer,
-    layout: '/admin'
+    component: Customer,
+    layout: '/admin',
   },
   {
     path: '/product',
     name: 'Product',
     icon: Spa,
     component: Product,
-    layout: '/admin'
-  }
+    layout: '/admin',
+  },
   // {
   //   path: '/user',
   //   name: 'User Profile',
   //   icon: Person,
   //   component: UserProfile,
-  //   layout: '/farmer'
+  //   layout: '/customer'
   // },
   // {
   //   path: '/typography',
@@ -68,36 +68,36 @@ const dashboardRoutes = [
   //   layout: '/admin'
   // }
 ];
-const farmerRoutes = [
+const customerRoutes = [
   {
     path: '/dashboard',
     name: 'Dashboard',
     icon: Dashboard,
     component: DashboardPage,
-    layout: ''
+    layout: '',
   },
   {
-    path: '/season',
-    name: 'Season',
+    path: '/form',
+    name: 'Form',
     icon: Spa,
-    component: Season,
-    layout: '/farmer'
+    component: Form,
+    layout: '/customer',
   },
   {
     path: '/certificate',
     name: 'Certificate',
     icon: Book,
     component: Certificate,
-    layout: '/farmer'
+    layout: '/customer',
   },
   {
     path: '/profile',
     name: 'Profile',
     icon: Person,
     component: UserProfile,
-    layout: ''
-  }
+    layout: '',
+  },
 ];
-const systemRoutes = [dashboardRoutes, farmerRoutes];
+const systemRoutes = [dashboardRoutes, customerRoutes];
 
 export default systemRoutes;

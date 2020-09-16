@@ -8,18 +8,18 @@ const { body, validationResult, check } = require('express-validator');
 require('dotenv').config();
 router.post(
   '/',
-  [
-    body('username').not().isEmpty().trim().escape(),
-    body('name').not().isEmpty().trim().escape(),
-    body('address').not().isEmpty().trim().escape(),
-  ],
+  // [
+  //   body('username').not().isEmpty().trim().escape(),
+  //   body('name').not().isEmpty().trim().escape(),
+  //   body('address').not().isEmpty().trim().escape(),
+  // ],
   async function (req, res) {
     try {
-      if (req.decoded.user.role !== USER_ROLES.ADMIN_BANK) {
-        return res.status(403).json({
-          msg: 'Permission Denied',
-        });
-      }
+      // if (req.decoded.user.role !== USER_ROLES.ADMIN_BANK) {
+      //   return res.status(403).json({
+      //     msg: 'Permission Denied',
+      //   });
+      // }
 
       const errors = validationResult(req);
 
@@ -64,22 +64,43 @@ router.post(
   }
 );
 
+router.get('/', async function (req, res) {
+  try {
+    const contract = await fabricNetwork.connectNetwork(
+      'connection-bank.json',
+      'wallet/wallet-bank',
+      process.env.ADMIN_BANK_USERNAME
+    );
+    const result = await contract.evaluateTransaction(
+      'queryAllAsset',
+      'Customer'
+    );
+    let response = JSON.parse(result.toString());
+    res.json({ customers: response });
+  } catch (error) {
+    console.error(`Failed to evaluate transaction: ${error}`);
+    res.status(500).json({
+      error: error,
+    });
+  }
+});
+
 router.put(
   '/:id',
-  [
-    body('name').not().isEmpty().trim().escape(),
-    body('address').not().isEmpty().trim().escape(),
-  ],
+  // [
+  //   body('name').not().isEmpty().trim().escape(),
+  //   body('address').not().isEmpty().trim().escape(),
+  // ],
   async function (req, res) {
     try {
-      if (
-        req.decoded.user.role !== USER_ROLES.ADMIN_BANK &&
-        req.decoded.user.role !== USER_ROLES.CUSTOMER
-      ) {
-        return res.status(403).json({
-          msg: 'Permission Denied',
-        });
-      }
+      // if (
+      //   req.decoded.user.role !== USER_ROLES.ADMIN_BANK &&
+      //   req.decoded.user.role !== USER_ROLES.CUSTOMER
+      // ) {
+      //   return res.status(403).json({
+      //     msg: 'Permission Denied',
+      //   });
+      // }
 
       const errors = validationResult(req);
 
@@ -121,11 +142,11 @@ router.put(
 
 router.delete('/:id', check('id').trim().escape(), async function (req, res) {
   try {
-    if (req.decoded.user.role !== USER_ROLES.ADMIN_BANK) {
-      return res.status(403).json({
-        msg: 'Permission Denied',
-      });
-    }
+    // if (req.decoded.user.role !== USER_ROLES.ADMIN_BANK) {
+    //   return res.status(403).json({
+    //     msg: 'Permission Denied',
+    //   });
+    // }
     const contract = await fabricNetwork.connectNetwork(
       'connection-bank.json',
       'wallet/wallet-bank',
@@ -140,27 +161,6 @@ router.delete('/:id', check('id').trim().escape(), async function (req, res) {
       result: result,
       msg: `Delete Customer successful!`,
     });
-  } catch (error) {
-    console.error(`Failed to evaluate transaction: ${error}`);
-    res.status(500).json({
-      error: error,
-    });
-  }
-});
-
-router.get('/', async function (req, res) {
-  try {
-    const contract = await fabricNetwork.connectNetwork(
-      'connection-bank.json',
-      'wallet/wallet-bank',
-      process.env.ADMIN_BANK_USERNAME
-    );
-    const result = await contract.evaluateTransaction(
-      'queryAllAsset',
-      'Customer'
-    );
-    let response = JSON.parse(result.toString());
-    res.json({ customers: response });
   } catch (error) {
     console.error(`Failed to evaluate transaction: ${error}`);
     res.status(500).json({

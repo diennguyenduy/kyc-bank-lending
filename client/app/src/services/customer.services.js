@@ -1,11 +1,11 @@
 import axios from 'axios';
 import { authHeader } from '_helpers/auth-header';
-export const farmerService = {
-  createSeason,
-  getSeason,
-  getAllSeason,
-  editSeason,
-  deleteSeason,
+export const customerService = {
+  createForm,
+  getForm,
+  getAllForm,
+  editForm,
+  deleteForm,
   createAction,
   getAllAction,
   createCertificate,
@@ -14,55 +14,58 @@ export const farmerService = {
   editCertificate,
   deleteCertificate,
 };
-//------------Season-----------------------------------------------------------------------//
-// create a season
-async function createSeason(season) {
+//------------Form-----------------------------------------------------------------------//
+// create a form
+async function createForm(form) {
   try {
     let respone = await axios.post(
-      `${process.env.REACT_APP_API_BACKEND}/season`,
+      `${process.env.REACT_APP_API_BACKEND}/form`,
       {
-        name: season.name,
-        sowingDate: season.sowingDate,
-        harvestDate: season.harvestDate,
-        productId: season.productId,
+        id: form.id,
+        customer: form.customer,
+        customerId: form.customerId,
+        amount: form.amount,
       },
       {
         headers: authHeader(),
       }
     );
 
-    return respone.data.seasons;
+    return respone.data.forms;
   } catch (error) {
     throw error;
   }
 }
-// edit season
-async function editSeason(seasonId, season) {
+// edit form
+async function editForm(formId, form) {
   try {
     let respone = await axios.put(
-      `${process.env.REACT_APP_API_BACKEND}/season/${seasonId}`,
+      `${process.env.REACT_APP_API_BACKEND}/form/${formId}`,
       {
-        name: season.name,
-        sowingDate: season.sowingDate,
-        harvestDate: season.harvestDate,
-        productId: season.productId,
+        id: form.id,
+        customer: form.customer,
+        customerId: form.customerId,
+        amount: form.amount,
       },
       {
         headers: authHeader(),
       }
     );
 
-    return respone.seasons;
+    return respone.forms;
   } catch (error) {
     throw error;
   }
 }
 
-async function deleteSeason(seasonId) {
+async function deleteForm(formId) {
   try {
-    let respone = await axios.delete(`${process.env.REACT_APP_API_BACKEND}/season/${seasonId}`, {
-      headers: authHeader(),
-    });
+    let respone = await axios.delete(
+      `${process.env.REACT_APP_API_BACKEND}/form/${formId}`,
+      {
+        headers: authHeader(),
+      }
+    );
 
     return respone;
   } catch (error) {
@@ -71,31 +74,34 @@ async function deleteSeason(seasonId) {
     throw error;
   }
 }
-// get a season by Id
-async function getSeason(seasonId) {
+// get a form by Id
+async function getForm(formId) {
   try {
-    let respone = await axios.get(`${process.env.REACT_APP_API_BACKEND}/info/season/${seasonId}`, {
-      headers: authHeader(),
-    });
+    let respone = await axios.get(
+      `${process.env.REACT_APP_API_BACKEND}/info/form/${formId}`,
+      {
+        headers: authHeader(),
+      }
+    );
     return respone.data.result;
   } catch (error) {
     throw error;
   }
 }
 
-// get all seasons
-async function getAllSeason() {
+// get all forms
+async function getAllForm() {
   try {
-    let respone = await axios.get(`${process.env.REACT_APP_API_BACKEND}/season`, {
+    let respone = await axios.get(`${process.env.REACT_APP_API_BACKEND}/form`, {
       headers: authHeader(),
     });
 
-    return respone.data.seasons;
+    return respone.data.forms;
   } catch (error) {
     throw error;
   }
 }
-//-----------------------------------------------------Season-------------------------------------------//
+//-----------------------------------------------------Form-------------------------------------------//
 
 async function createAction(action) {
   try {
@@ -107,7 +113,7 @@ async function createAction(action) {
         action: action.action,
         time: action.time,
         description: action.description,
-        seasonId: action.seasonId,
+        formId: action.formId,
       },
       {
         headers: authHeader(),
@@ -119,11 +125,14 @@ async function createAction(action) {
   }
 }
 
-async function getAllAction(seasonId) {
+async function getAllAction(formId) {
   try {
-    let respone = await axios.get(`${process.env.REACT_APP_API_BACKEND}/info/actions/${seasonId}`, {
-      headers: authHeader(),
-    });
+    let respone = await axios.get(
+      `${process.env.REACT_APP_API_BACKEND}/info/actions/${formId}`,
+      {
+        headers: authHeader(),
+      }
+    );
 
     return respone.data.actions;
   } catch (error) {
@@ -205,9 +214,12 @@ async function getCertificate(username) {
 // get all certificates
 async function getAllCertificate() {
   try {
-    let respone = await axios.get(`${process.env.REACT_APP_API_BACKEND}/certificate`, {
-      headers: authHeader(),
-    });
+    let respone = await axios.get(
+      `${process.env.REACT_APP_API_BACKEND}/certificate`,
+      {
+        headers: authHeader(),
+      }
+    );
 
     return respone.data.certificates;
   } catch (error) {

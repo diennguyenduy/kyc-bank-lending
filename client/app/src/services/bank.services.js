@@ -1,31 +1,31 @@
 import axios from 'axios';
 import { authHeader } from '_helpers/auth-header';
 export const producerService = {
-  createFarmer,
-  getFarmer,
-  getAllFarmer,
-  editFarmer,
-  deleteFarmer,
-  getFarmerByUsername,
+  createCustomer,
+  getCustomer,
+  getAllCustomer,
+  editCustomer,
+  deleteCustomer,
+  getCustomerByUsername,
   createProduct,
   editProduct,
   getProduct,
   getAllProduct,
   deleteProduct,
-  getAllProductByFarmer,
+  getAllProductByCustomer,
 };
-//------------Farmer-----------------------------------------------------------------------//
-// create a farmer
-async function createFarmer(farmer) {
+//------------Customer-----------------------------------------------------------------------//
+// create a customer
+async function createCustomer(customer) {
   try {
     let response = await axios.post(
-      `${process.env.REACT_APP_API_BACKEND}/farmer`,
+      `${process.env.REACT_APP_API_BACKEND}/customer`,
       {
-        username: farmer.username,
-        name: farmer.name,
-        address: farmer.address,
-        description: farmer.description,
-        imageUrl: farmer.imageUrl,
+        username: customer.username,
+        name: customer.name,
+        address: customer.address,
+        description: customer.description,
+        imageUrl: customer.imageUrl,
       },
       {
         headers: authHeader(),
@@ -39,17 +39,17 @@ async function createFarmer(farmer) {
     throw error;
   }
 }
-// edit farmer
-async function editFarmer(farmerId, farmer) {
+// edit customer
+async function editCustomer(customerId, customer) {
   try {
     let response = await axios.put(
-      `${process.env.REACT_APP_API_BACKEND}/farmer/${farmerId}`,
+      `${process.env.REACT_APP_API_BACKEND}/customer/${customerId}`,
       {
-        name: farmer.name,
-        address: farmer.address,
-        description: farmer.description,
-        imageUrl: farmer.imageUrl,
-        username: farmer.username,
+        name: customer.name,
+        address: customer.address,
+        description: customer.description,
+        imageUrl: customer.imageUrl,
+        username: customer.username,
       },
       {
         headers: authHeader(),
@@ -62,11 +62,14 @@ async function editFarmer(farmerId, farmer) {
   }
 }
 
-async function deleteFarmer(farmerId) {
+async function deleteCustomer(customerId) {
   try {
-    let response = await axios.delete(`${process.env.REACT_APP_API_BACKEND}/farmer/${farmerId}`, {
-      headers: authHeader(),
-    });
+    let response = await axios.delete(
+      `${process.env.REACT_APP_API_BACKEND}/customer/${customerId}`,
+      {
+        headers: authHeader(),
+      }
+    );
 
     return response.data;
   } catch (error) {
@@ -75,23 +78,11 @@ async function deleteFarmer(farmerId) {
     throw error;
   }
 }
-// get a farmer by Id
-async function getFarmer(farmerId) {
-  try {
-    let response = await axios.get(`${process.env.REACT_APP_API_BACKEND}/info/farmer/${farmerId}`, {
-      headers: authHeader(),
-    });
-    return response.data;
-  } catch (error) {
-    throw error;
-  }
-}
-
-// get a farmer by username
-async function getFarmerByUsername(username) {
+// get a customer by Id
+async function getCustomer(customerId) {
   try {
     let response = await axios.get(
-      `${process.env.REACT_APP_API_BACKEND}/info/farmer-detail/${username}`,
+      `${process.env.REACT_APP_API_BACKEND}/info/customer/${customerId}`,
       {
         headers: authHeader(),
       }
@@ -102,19 +93,37 @@ async function getFarmerByUsername(username) {
   }
 }
 
-// get all farmers
-async function getAllFarmer() {
+// get a customer by username
+async function getCustomerByUsername(username) {
   try {
-    let response = await axios.get(`${process.env.REACT_APP_API_BACKEND}/farmer`, {
-      headers: authHeader(),
-    });
+    let response = await axios.get(
+      `${process.env.REACT_APP_API_BACKEND}/info/customer-detail/${username}`,
+      {
+        headers: authHeader(),
+      }
+    );
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+}
+
+// get all customers
+async function getAllCustomer() {
+  try {
+    let response = await axios.get(
+      `${process.env.REACT_APP_API_BACKEND}/customer`,
+      {
+        headers: authHeader(),
+      }
+    );
 
     return response.data;
   } catch (error) {
     throw error;
   }
 }
-//-----------------------------------------------------Farmer-------------------------------------------//
+//-----------------------------------------------------Customer-------------------------------------------//
 
 //-----------------------------------------------------Product------------------------------------------//
 //create product
@@ -161,9 +170,12 @@ async function editProduct(productId, product) {
 }
 async function getAllProduct() {
   try {
-    let response = await axios.get(`${process.env.REACT_APP_API_BACKEND}/product`, {
-      headers: authHeader(),
-    });
+    let response = await axios.get(
+      `${process.env.REACT_APP_API_BACKEND}/product`,
+      {
+        headers: authHeader(),
+      }
+    );
 
     return response.data.products;
   } catch (error) {
@@ -186,9 +198,12 @@ async function getProduct(productId) {
 }
 async function deleteProduct(productId) {
   try {
-    let response = await axios.delete(`${process.env.REACT_APP_API_BACKEND}/product/${productId}`, {
-      headers: authHeader(),
-    });
+    let response = await axios.delete(
+      `${process.env.REACT_APP_API_BACKEND}/product/${productId}`,
+      {
+        headers: authHeader(),
+      }
+    );
 
     return response.data;
   } catch (error) {
@@ -198,10 +213,10 @@ async function deleteProduct(productId) {
   }
 }
 
-async function getAllProductByFarmer(farmerUsername) {
+async function getAllProductByCustomer(customerUsername) {
   try {
     let response = await axios.get(
-      `${process.env.REACT_APP_API_BACKEND}/product/farmer/${farmerUsername}`,
+      `${process.env.REACT_APP_API_BACKEND}/product/customer/${customerUsername}`,
       {
         headers: authHeader(),
       }

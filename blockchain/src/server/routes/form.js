@@ -49,6 +49,7 @@ router.post('/', async function (req, res) {
   }
 });
 
+// get all form
 // router.get('/', async function (req, res) {
 //   try {
 //     const contract = await fabricNetwork.connectNetwork(
@@ -78,8 +79,6 @@ router.get('/', async function (req, res) {
     const result = await contract.evaluateTransaction(
       'queryAllAssetByAttribute',
       'Form',
-      // req.params.attribute.toString(),
-      // req.params.attributeId.toString(),
       req.body.attribute,
       req.body.attributeId
     );

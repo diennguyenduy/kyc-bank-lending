@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { authHeader } from '_helpers/auth-header';
-export const producerService = {
+export const bankService = {
   createCustomer,
   getCustomer,
   getAllCustomer,

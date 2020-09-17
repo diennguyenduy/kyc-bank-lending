@@ -49,25 +49,7 @@ router.post('/', async function (req, res) {
   }
 });
 
-// get all form
-// router.get('/', async function (req, res) {
-//   try {
-//     const contract = await fabricNetwork.connectNetwork(
-//       'connection-bank.json',
-//       'wallet/wallet-bank',
-//       process.env.ADMIN_BANK_USERNAME
-//     );
-//     const result = await contract.evaluateTransaction('queryAllAsset', 'Form');
-//     let response = JSON.parse(result.toString());
-//     res.json({ forms: response });
-//   } catch (error) {
-//     console.error(`Failed to evaluate transaction: ${error}`);
-//     res.status(500).json({
-//       error: error,
-//     });
-//   }
-// });
-
+// Get all form
 router.get('/', async function (req, res) {
   try {
     const contract = await fabricNetwork.connectNetwork(
@@ -75,14 +57,7 @@ router.get('/', async function (req, res) {
       'wallet/wallet-bank',
       process.env.ADMIN_BANK_USERNAME
     );
-
-    const result = await contract.evaluateTransaction(
-      'queryAllAssetByAttribute',
-      'Form',
-      req.body.attribute,
-      req.body.attributeId
-    );
-
+    const result = await contract.evaluateTransaction('queryAllAsset', 'Form');
     let response = JSON.parse(result.toString());
     res.json({ forms: response });
   } catch (error) {
@@ -92,6 +67,31 @@ router.get('/', async function (req, res) {
     });
   }
 });
+
+// router.get('/', async function (req, res) {
+//   try {
+//     const contract = await fabricNetwork.connectNetwork(
+//       'connection-bank.json',
+//       'wallet/wallet-bank',
+//       process.env.ADMIN_BANK_USERNAME
+//     );
+
+//     const result = await contract.evaluateTransaction(
+//       'queryAllAssetByAttribute',
+//       'Form',
+//       req.body.attribute,
+//       req.body.attributeId
+//     );
+
+//     let response = JSON.parse(result.toString());
+//     res.json({ forms: response });
+//   } catch (error) {
+//     console.error(`Failed to evaluate transaction: ${error}`);
+//     res.status(500).json({
+//       error: error,
+//     });
+//   }
+// });
 
 router.put('/:id', async function (req, res) {
   try {

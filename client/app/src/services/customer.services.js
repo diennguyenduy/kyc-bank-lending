@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { authHeader } from '_helpers/auth-header';
+
 export const customerService = {
   createForm,
   getForm,
@@ -14,6 +15,7 @@ export const customerService = {
   editCertificate,
   deleteCertificate,
 };
+
 //------------Form-----------------------------------------------------------------------//
 // create a form
 async function createForm(form) {
@@ -36,6 +38,7 @@ async function createForm(form) {
     throw error;
   }
 }
+
 // edit form
 async function editForm(formId, form) {
   try {
@@ -74,6 +77,7 @@ async function deleteForm(formId) {
     throw error;
   }
 }
+
 // get a form by Id
 async function getForm(formId) {
   try {
@@ -139,6 +143,7 @@ async function getAllAction(formId) {
     throw error;
   }
 }
+
 //----------------------------------------------CERTIFICATE---------------------------------------------------------------------------------
 async function createCertificate(certificate) {
   try {
@@ -159,6 +164,7 @@ async function createCertificate(certificate) {
     throw error;
   }
 }
+
 // edit certificate
 async function editCertificate(certificateId, certificate) {
   try {
@@ -196,6 +202,7 @@ async function deleteCertificate(certificateId) {
     throw error;
   }
 }
+
 // get a certificate by Id
 async function getCertificate(username) {
   try {

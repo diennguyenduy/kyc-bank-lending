@@ -1,6 +1,7 @@
 import { customerService } from 'services/customer.services.js';
 import { toast } from 'react-toastify';
 import * as bankAction from './bank.actions';
+
 export const customer = {
   CEATE_FORM: 'CREATE_FORM',
   GET_ALL_FORM: 'GET_ALL_FORM',
@@ -15,6 +16,7 @@ export const customer = {
   EDIT_CERTIFICATE: 'EDIT_CERTIFICATE',
   DELETE_CERTIFICATE: 'DELETE_CERTIFICATE',
 };
+
 // start Form
 export const createForm = (form) => async (dispatch) => {
   try {
@@ -30,6 +32,7 @@ export const createForm = (form) => async (dispatch) => {
     console.log('create form error');
   }
 };
+
 export const editForm = (id, form) => async (dispatch) => {
   try {
     let res = await customerService.editForm(id, form);
@@ -56,6 +59,7 @@ export const deleteForm = (id) => async (dispatch) => {
     console.log('delete customer error');
   }
 };
+
 export const getAllForm = () => async (dispatch) => {
   try {
     let res = await customerService.getAllForm();
@@ -85,7 +89,6 @@ export const getForm = (id) => async (dispatch) => {
 //end Form
 
 //start Action
-
 export const createAction = (action) => async (dispatch) => {
   try {
     let res = await customerService.createAction(action);
@@ -99,6 +102,7 @@ export const createAction = (action) => async (dispatch) => {
     console.log(error);
   }
 };
+
 export const getAllAction = (formId) => async (dispatch) => {
   try {
     let res = await customerService.getAllAction(formId);
@@ -127,6 +131,7 @@ export const createCertificate = (certificate) => async (dispatch) => {
     console.log('create certificate error');
   }
 };
+
 export const editCertificate = (id, certificate) => async (dispatch) => {
   try {
     let res = await customerService.editCertificate(id, certificate);
@@ -153,6 +158,7 @@ export const deleteCertificate = (id) => async (dispatch) => {
     console.log('delete customer error');
   }
 };
+
 export const getAllCertificate = () => async (dispatch) => {
   try {
     let res = await customerService.getAllCertificate();
@@ -164,6 +170,7 @@ export const getAllCertificate = () => async (dispatch) => {
     console.log('Can not get all certificate');
   }
 };
+
 export const getCertificate = (username) => async (dispatch) => {
   try {
     let res = await customerService.getCertificate(username);

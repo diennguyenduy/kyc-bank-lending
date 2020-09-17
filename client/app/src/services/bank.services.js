@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { authHeader } from '_helpers/auth-header';
+
 export const bankService = {
   createCustomer,
   getCustomer,
@@ -14,6 +15,7 @@ export const bankService = {
   deleteProduct,
   getAllProductByCustomer,
 };
+
 //------------Customer-----------------------------------------------------------------------//
 // create a customer
 async function createCustomer(customer) {
@@ -39,6 +41,7 @@ async function createCustomer(customer) {
     throw error;
   }
 }
+
 // edit customer
 async function editCustomer(customerId, customer) {
   try {
@@ -78,6 +81,7 @@ async function deleteCustomer(customerId) {
     throw error;
   }
 }
+
 // get a customer by Id
 async function getCustomer(customerId) {
   try {
@@ -168,6 +172,7 @@ async function editProduct(productId, product) {
     throw error;
   }
 }
+
 async function getAllProduct() {
   try {
     let response = await axios.get(
@@ -182,6 +187,7 @@ async function getAllProduct() {
     throw error;
   }
 }
+
 async function getProduct(productId) {
   try {
     let response = await axios.get(
@@ -196,6 +202,7 @@ async function getProduct(productId) {
     throw error;
   }
 }
+
 async function deleteProduct(productId) {
   try {
     let response = await axios.delete(

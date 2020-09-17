@@ -5,6 +5,7 @@ export const auth = {
   LOGIN: 'LOGIN',
   LOGOUT: 'LOGOUT',
 };
+
 export const signIn = (username, password) => async (dispatch) => {
   try {
     let res = await authService.signIn(username, password);
@@ -20,6 +21,7 @@ export const signIn = (username, password) => async (dispatch) => {
     else toast.error('Internal server error');
   }
 };
+
 export const signOut = () => (dispatch) => {
   authService.signOut();
   dispatch({

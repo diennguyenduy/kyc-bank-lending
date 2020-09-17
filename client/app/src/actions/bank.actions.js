@@ -15,6 +15,7 @@ export const bank = {
   DELETE_PRODUCT: 'DELETE_PRODUCT',
   GET_ALL_PRODUCT_BY_CUSTOMER: 'GET_ALL_PRODUCT_BY_CUSTOMER',
 };
+
 // start Customer
 export const createCustomer = (customer) => async (dispatch) => {
   try {
@@ -31,6 +32,7 @@ export const createCustomer = (customer) => async (dispatch) => {
     else toast.error('Internal server error');
   }
 };
+
 export const editCustomer = (id, customer) => async (dispatch) => {
   try {
     let res = await bankService.editCustomer(id, customer);
@@ -58,6 +60,7 @@ export const deleteCustomer = (id) => async (dispatch) => {
     else toast.error('Internal server error');
   }
 };
+
 export const getAllCustomer = () => async (dispatch) => {
   try {
     let res = await bankService.getAllCustomer();
@@ -83,6 +86,7 @@ export const getCustomer = (id) => async (dispatch) => {
     else toast.error('Internal server error');
   }
 };
+
 export const getCustomerByUsername = (username) => async (dispatch) => {
   try {
     let res = await bankService.getCustomerByUsername(username);
@@ -160,6 +164,7 @@ export const deleteProduct = (id) => async (dispatch) => {
     else toast.error('Internal server error');
   }
 };
+
 export const getProduct = (id) => async (dispatch) => {
   try {
     let res = await bankService.getProduct(id);

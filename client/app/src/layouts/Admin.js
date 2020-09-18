@@ -1,17 +1,20 @@
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
+
 // creates a beautiful scrollbar
 import PerfectScrollbar from 'perfect-scrollbar';
 import 'perfect-scrollbar/css/perfect-scrollbar.css';
+
 // @material-ui/core components
-import { makeStyles } from '@material-ui/core/styles';
 import Action from '../views/Action/Action';
+import { makeStyles } from '@material-ui/core/styles';
+
 // core components
-import Navbar from 'components/Navbars/Navbar.js';
+import systemRoutes from 'routes.js';
 import Footer from 'components/Footer/Footer.js';
+import Navbar from 'components/Navbars/Navbar.js';
 import Sidebar from 'components/Sidebar/Sidebar.js';
 // import FixedPlugin from 'components/FixedPlugin/FixedPlugin.js';
-import systemRoutes from 'routes.js';
 
 import styles from 'assets/jss/material-dashboard-react/layouts/adminStyle.js';
 
@@ -19,7 +22,6 @@ import bgImage from 'assets/img/sidebar-2.jpg';
 import logo from 'assets/img/logo_transparent.png';
 
 let ps;
-
 const useStyles = makeStyles(styles);
 
 export default function Admin({ ...rest }) {

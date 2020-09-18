@@ -8,7 +8,6 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 // core components
-
 import Table from 'components/Table/Table.js';
 import Card from 'components/Card/Card.js';
 import CardHeader from 'components/Card/CardHeader.js';
@@ -107,13 +106,14 @@ export default function Form() {
   const [deleteAlert, setDeleteAlert] = React.useState(false);
   const [id, setId] = React.useState('');
   const [product, setProduct] = React.useState('');
+
   const initForm = {
     id: '',
-    name: '',
-    sowingDate: '',
-    harvestDate: '',
-    productId: '',
+    customer: '',
+    customerId: '',
+    amount: '',
   };
+
   const [form, setForm] = React.useState(initForm);
   useEffect(() => {
     dispatch(action.getAllForm());
@@ -129,6 +129,7 @@ export default function Form() {
     setDialog('create');
     setOpen(true);
   };
+
   /*
     open dialog when user click edit button
     set data from row table to edit input
@@ -140,6 +141,7 @@ export default function Form() {
     setForm(row);
     setOpen(true);
   };
+
   /**
    * close dialog when user click button close
    * clear input data
@@ -149,6 +151,7 @@ export default function Form() {
     setOpen(false);
     setProduct('');
   };
+
   const handleChange = (e) => {
     const { name, value } = e.target;
 
@@ -166,6 +169,7 @@ export default function Form() {
     setLoading(false);
     handleClose();
   };
+
   const handleEditSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -176,6 +180,7 @@ export default function Form() {
     setLoading(false);
     handleClose();
   };
+
   const handleShowAlert = (e, row) => {
     e.stopPropagation();
     setDeleteAlert(true);

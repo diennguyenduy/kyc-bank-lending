@@ -5,10 +5,9 @@ import Spa from '@material-ui/icons/Spa';
 import Book from '@material-ui/icons/Book';
 import DashboardPage from 'views/Dashboard/Dashboard.js';
 import Customer from 'views/Customer/Customer';
-import Product from 'views/Product/Product';
 import Form from 'views/Form/Form';
-import UserProfile from 'views/CustomerProfile/Profile';
-import Certificate from './views/Certificate/Certificate';
+// import UserProfile from 'views/CustomerProfile/Profile';
+// import Certificate from './views/Certificate/Certificate';
 
 const dashboardRoutes = [
   {
@@ -23,13 +22,6 @@ const dashboardRoutes = [
     name: 'Customer',
     icon: Person,
     component: Customer,
-    layout: '/admin',
-  },
-  {
-    path: '/product',
-    name: 'Product',
-    icon: Spa,
-    component: Product,
     layout: '/admin',
   },
   // {
@@ -83,20 +75,20 @@ const customerRoutes = [
     component: Form,
     layout: '/customer',
   },
-  {
-    path: '/certificate',
-    name: 'Certificate',
-    icon: Book,
-    component: Certificate,
-    layout: '/customer',
-  },
-  {
-    path: '/profile',
-    name: 'Profile',
-    icon: Person,
-    component: UserProfile,
-    layout: '',
-  },
+  // {
+  //   path: '/certificate',
+  //   name: 'Certificate',
+  //   icon: Book,
+  //   component: Certificate,
+  //   layout: '/customer',
+  // },
+  // {
+  //   path: '/profile',
+  //   name: 'Profile',
+  //   icon: Person,
+  //   component: UserProfile,
+  //   layout: '',
+  // },
 ];
 const systemRoutes = [dashboardRoutes, customerRoutes];
 

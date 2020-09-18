@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { useSelector, useDispatch } from 'react-redux';
-import * as action from 'actions/producer.actions';
+import * as action from 'actions/bank.actions';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import 'firebase/storage';
@@ -91,7 +91,7 @@ export default function Customer() {
   const storage = firebase.storage();
   const classes = useStyles();
   const dispatch = useDispatch();
-  const producer = useSelector((state) => state.producer);
+  const bank = useSelector((state) => state.bank);
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
   const [open, setOpen] = React.useState(false);
@@ -249,7 +249,7 @@ export default function Customer() {
           <Table
             tableHeaderColor='info'
             columns={columns}
-            tableData={producer.customerList ? producer.customerList : []}
+            tableData={bank.customerList ? bank.customerList : []}
             handelEdit={handelEditOpen}
             handelDelete={handleShowAlert}
             showDetail={showDetail}

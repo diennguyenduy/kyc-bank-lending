@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { useSelector, useDispatch } from 'react-redux';
 import * as action from 'actions/customer.actions';
-import * as producerAction from 'actions/producer.actions';
+import * as bankAction from 'actions/bank.actions';
 import { useHistory } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -97,7 +97,7 @@ export default function Form() {
   const classes = useStyles();
   const dispatch = useDispatch();
   const customer = useSelector((state) => state.customer);
-  const producer = useSelector((state) => state.producer);
+  const bank = useSelector((state) => state.bank);
   const theme = useTheme();
   const history = useHistory();
   const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
@@ -117,7 +117,7 @@ export default function Form() {
   const [form, setForm] = React.useState(initForm);
   useEffect(() => {
     dispatch(action.getAllForm());
-    dispatch(producerAction.getAllProduct());
+    dispatch(bankAction.getAllProduct());
   }, [dispatch]);
   const columns = [
     { id: 'name', label: 'Name' },
@@ -282,7 +282,7 @@ export default function Form() {
               value={product}
               onChange={handleSelect}
             >
-              {producer.productList.map((value, index) => (
+              {bank.productList.map((value, index) => (
                 <MenuItem key={index} value={value}>
                   {value.name}
                 </MenuItem>

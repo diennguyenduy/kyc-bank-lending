@@ -1,5 +1,5 @@
-import Form from 'views/Form/Form';
-import Customer from 'views/Customer/Customer';
+import Form from 'pages/Form/Form';
+import Customer from 'pages/Customer/Customer';
 // import DashboardPage from 'views/Dashboard/Dashboard.js';
 // import UserProfile from 'views/CustomerProfile/Profile';
 // import Certificate from './views/Certificate/Certificate';
@@ -8,7 +8,7 @@ import Customer from 'views/Customer/Customer';
 import Spa from '@material-ui/icons/Spa';
 // import Book from '@material-ui/icons/Book';
 import Person from '@material-ui/icons/Person';
-import Dashboard from '@material-ui/icons/Dashboard';
+// import Dashboard from '@material-ui/icons/Dashboard';
 
 const dashboardRoutes = [
   // {

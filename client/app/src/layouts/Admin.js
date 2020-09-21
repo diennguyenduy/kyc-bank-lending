@@ -6,7 +6,7 @@ import PerfectScrollbar from 'perfect-scrollbar';
 import 'perfect-scrollbar/css/perfect-scrollbar.css';
 
 // @material-ui/core components
-import Action from '../views/Action/Action';
+// import Action from '../views/Action/Action';
 import { makeStyles } from '@material-ui/core/styles';
 
 // core components
@@ -18,8 +18,8 @@ import Sidebar from 'components/Sidebar/Sidebar.js';
 
 import styles from 'assets/jss/material-dashboard-react/layouts/adminStyle.js';
 
-import bgImage from 'assets/img/sidebar-2.jpg';
-import logo from 'assets/img/logo_transparent.png';
+// import bgImage from 'assets/img/sidebar-2.jpg';
+import logo from 'assets/img/logo.png';
 
 let ps;
 const useStyles = makeStyles(styles);
@@ -30,7 +30,7 @@ export default function Admin({ ...rest }) {
   // ref to help us initialize PerfectScrollbar on windows devices
   const mainPanel = React.createRef();
   // states and functions
-  const [image] = React.useState(bgImage);
+  // const [image] = React.useState(bgImage);
   const [color] = React.useState('blue');
   // const [fixedClasses, setFixedClasses] = React.useState('dropdown show');
   const [mobileOpen, setMobileOpen] = React.useState(false);
@@ -62,13 +62,15 @@ export default function Admin({ ...rest }) {
   };
   // initialize and destroy the PerfectScrollbar plugin
   React.useEffect(() => {
-    const user = JSON.parse(localStorage.getItem('user'));
+    // const user = JSON.parse(localStorage.getItem('user'));
+    let user = {
+      role: 1,
+    };
 
     switch (user.role) {
       case 1:
         setRoutes(systemRoutes[0]);
         break;
-
       case 2:
         setRoutes(systemRoutes[1]);
         break;
@@ -102,7 +104,7 @@ export default function Admin({ ...rest }) {
           key={key}
         />
       ))}
-      <Route path='/season/:id' component={Action} />
+      {/* <Route path='/season/:id' component={Action} /> */}
     </Switch>
   );
   return (
@@ -111,7 +113,7 @@ export default function Admin({ ...rest }) {
         routes={routes}
         logoText={'Food Trace'}
         logo={logo}
-        image={image}
+        // image={image}
         handleDrawerToggle={handleDrawerToggle}
         open={mobileOpen}
         color={color}

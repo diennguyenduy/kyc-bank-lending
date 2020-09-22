@@ -1,3 +1,7 @@
+/* Ứng dụng nhiều nhất của JWT Token, và mục đích duy nhất nên sử dụng JWT
+  là dùng nó như một cơ chế xác thực API. Điều này hiện nay là quá phổ biến
+  và được sử dụng rộng rãi, kể cả Google cũng sử dụng JWT để xác thực các APIs của họ.
+*/
 const jwt = require('jsonwebtoken');
 let secretJWT = require('../configs/secret').secret;
 
